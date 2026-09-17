@@ -1,7 +1,7 @@
 services:
   web:
     build: .
-    image: YOUR_DOCKERHUB_USERNAME/ceylon-coconut-mill:latest
+    image: traveen/ceylon-coconut-mill:latest 
     ports:
       - "8080:80"
     environment:
