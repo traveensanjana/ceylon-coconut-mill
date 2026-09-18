@@ -52,23 +52,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Pull latest image
-        shell: bash
         run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ceylon-coconut-mill:latest
 
       - name: Stop and remove old container (if running)
-        shell: bash
         run: |
-          docker stop coconut-mill-app || true
-          docker rm coconut-mill-app || true
+          docker stop coconut-mill-app
+          docker rm coconut-mill-app
+          exit 0
 
       - name: Run new container
-        shell: bash
-        run: |
-          docker run -d --name coconut-mill-app \
-            --network coconut-mill-network \
-            -p 8080:80 \
-            -e DB_HOST=db \
-            -e DB_USER=root \
-            -e DB_PASS=rootpass \
-            -e DB_NAME=tom \
-            ${{ secrets.DOCKERHUB_USERNAME }}/ceylon-coconut-mill:latest
+        run: docker run -d --name coconut-mill-app --network coconut-mill-network -p 8080:80 -e DB_HOST=db -e DB_USER=root -e DB_PASS=rootpass -e DB_NAME=tom ${{ secrets.DOCKERHUB_USERNAME }}/ceylon-coconut-mill:latest
